@@ -1,12 +1,14 @@
 resource "aws_s3_bucket" "data" {
   bucket        = var.bucket_name
   force_destroy = false
-  tags = { Environment = var.environment, Purpose = "taxi-data-lake" }
+  tags          = { Environment = var.environment, Purpose = "taxi-data-lake" }
 }
+
 resource "aws_s3_bucket_versioning" "data" {
   bucket = aws_s3_bucket.data.id
   versioning_configuration { status = "Enabled" }
 }
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "data" {
   bucket = aws_s3_bucket.data.id
   rule {
@@ -15,6 +17,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "data" {
     }
   }
 }
+
 resource "aws_s3_bucket_public_access_block" "data" {
   bucket                  = aws_s3_bucket.data.id
   block_public_acls       = true
@@ -22,10 +25,12 @@ resource "aws_s3_bucket_public_access_block" "data" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
 resource "aws_s3_bucket_ownership_controls" "data" {
   bucket = aws_s3_bucket.data.id
   rule { object_ownership = "BucketOwnerEnforced" }
 }
+
 data "aws_iam_policy_document" "tls" {
   statement {
     sid     = "DenyInsecureTransport"
@@ -37,14 +42,14 @@ data "aws_iam_policy_document" "tls" {
     }
     resources = [aws_s3_bucket.data.arn, "${aws_s3_bucket.data.arn}/*"]
     condition {
-      test = "Bool"
+      test     = "Bool"
       variable = "aws:SecureTransport"
-      values = ["false"]
+      values   = ["false"]
     }
   }
 }
 resource "aws_s3_bucket_policy" "tls" {
-  bucket = aws_s3_bucket.data.id
-  policy = data.aws_iam_policy_document.tls.json
+  bucket     = aws_s3_bucket.data.id
+  policy     = data.aws_iam_policy_document.tls.json
   depends_on = [aws_s3_bucket_public_access_block.data]
 }
