@@ -9,7 +9,11 @@ resource "aws_s3_bucket_versioning" "data" {
 }
 resource "aws_s3_bucket_server_side_encryption_configuration" "data" {
   bucket = aws_s3_bucket.data.id
-  rule { apply_server_side_encryption_by_default { sse_algorithm = "AES256" } }
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
 }
 resource "aws_s3_bucket_public_access_block" "data" {
   bucket                  = aws_s3_bucket.data.id
@@ -27,7 +31,10 @@ data "aws_iam_policy_document" "tls" {
     sid     = "DenyInsecureTransport"
     effect  = "Deny"
     actions = ["s3:*"]
-    principals { type = "*" identifiers = ["*"] }
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
     resources = [aws_s3_bucket.data.arn, "${aws_s3_bucket.data.arn}/*"]
     condition {
       test = "Bool"
