@@ -1,7 +1,12 @@
-year: 2024
-month: 1
-min_fare: 0.01
-max_fare: 500.0
-min_distance: 0.01
-max_distance: 100.0
-max_duration_minutes: 240
+project:
+  name: nyc-taxi-mlops
+  environment: dev
+
+data:
+  source: nyc_tlc
+  taxi_type: yellow
+  year: 2024
+  month: 1
+
+aws:
+  region: us-east-1
