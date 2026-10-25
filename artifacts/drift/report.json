@@ -1,0 +1,14 @@
+{
+  "timestamp_utc": "2026-10-24T20:34:21.540706+00:00",
+  "features": {
+    "trip_distance": {
+      "psi": 0.00916,
+      "flag": false
+    },
+    "passenger_count": {
+      "psi": 0.02444,
+      "flag": false
+    }
+  },
+  "note": "PSI is a distribution-change signal, not an accuracy metric."
+}
