@@ -5,23 +5,16 @@ locals {
 
   state_bucket = "nyc-taxi-mlops-tfstate-${local.account_id}"
 
-  github_repo_identity = format(
-    "%s@%s/%s@%s",
-    var.github_owner,
-    var.github_owner_id,
-    var.github_repository,
-    var.github_repository_id
+  github_repo_identity = (
+    "${var.github_owner}@${var.github_owner_id}/${var.github_repository}@${var.github_repository_id}"
   )
 
-  github_dev_subject = format(
-    "repo:%s:environment:%s",
-    local.github_repo_identity,
-    var.environment
+  github_dev_subject = (
+    "repo:${local.github_repo_identity}:environment:${var.environment}"
   )
 
-  github_main_subject = format(
-    "repo:%s:ref:refs/heads/main",
-    local.github_repo_identity
+  github_main_subject = (
+    "repo:${local.github_repo_identity}:ref:refs/heads/main"
   )
 }
 
